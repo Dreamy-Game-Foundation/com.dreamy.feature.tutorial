@@ -1,0 +1,9 @@
+{
+  "name": "Dreamy.Tutorial.Integration.Runtime",
+  "rootNamespace": "Dreamy.Tutorial.Integration",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Unity.ugui"
+  ],
+  "autoReferenced": true
+}

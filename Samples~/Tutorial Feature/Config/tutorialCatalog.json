@@ -1,0 +1,48 @@
+{
+  "catalogId": "tutorial-demo",
+  "revision": 1,
+  "flows": [
+    {
+      "id": "ui-demo",
+      "allowSkip": true,
+      "steps": [
+        {
+          "id": "welcome",
+          "messageKey": "Welcome! Press Next to learn the UI.",
+          "completionMode": "Next"
+        },
+        {
+          "id": "action",
+          "messageKey": "Press the highlighted action button.",
+          "targetId": "demo.action",
+          "completionMode": "HostSignal",
+          "signalKey": "demo.action",
+          "blockOutsideTarget": true
+        },
+        {
+          "id": "done",
+          "messageKey": "UI tutorial complete. Press Next to save completion.",
+          "completionMode": "Next"
+        }
+      ]
+    },
+    {
+      "id": "world-demo",
+      "allowSkip": true,
+      "steps": [
+        {
+          "id": "welcome",
+          "messageKey": "Click the highlighted 3D cube.",
+          "targetId": "demo.cube",
+          "completionMode": "TargetClick",
+          "blockOutsideTarget": true
+        },
+        {
+          "id": "done",
+          "messageKey": "3D tutorial complete. Press Next.",
+          "completionMode": "Next"
+        }
+      ]
+    }
+  ]
+}

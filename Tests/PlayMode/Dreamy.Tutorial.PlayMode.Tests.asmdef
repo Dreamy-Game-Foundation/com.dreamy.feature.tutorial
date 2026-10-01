@@ -1,0 +1,19 @@
+{
+  "name": "Dreamy.Tutorial.PlayMode.Tests",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Dreamy.Tutorial.Integration.Runtime",
+    "Unity.ugui"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "autoReferenced": false
+}

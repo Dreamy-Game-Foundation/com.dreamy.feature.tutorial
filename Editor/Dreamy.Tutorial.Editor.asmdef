@@ -1,0 +1,15 @@
+{
+  "name": "Dreamy.Tutorial.Editor",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Dreamy.Tutorial.Integration.Runtime",
+    "Dreamy.DataConfig.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ]
+}

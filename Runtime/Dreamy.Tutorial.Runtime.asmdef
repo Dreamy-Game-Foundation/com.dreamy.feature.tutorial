@@ -1,0 +1,14 @@
+{
+  "name": "Dreamy.Tutorial.Runtime",
+  "rootNamespace": "Dreamy.Tutorial",
+  "references": [
+    "Dreamy.Core.Runtime",
+    "Dreamy.DataConfig.Runtime",
+    "Dreamy.Datasave.Runtime"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
+  "autoReferenced": true
+}

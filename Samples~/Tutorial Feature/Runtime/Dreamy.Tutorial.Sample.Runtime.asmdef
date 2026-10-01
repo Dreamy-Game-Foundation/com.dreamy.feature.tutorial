@@ -1,0 +1,13 @@
+{
+  "name": "Dreamy.Tutorial.Sample.Runtime",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Dreamy.Tutorial.Integration.Runtime",
+    "Dreamy.Datasave.Runtime",
+    "Unity.ugui"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ]
+}

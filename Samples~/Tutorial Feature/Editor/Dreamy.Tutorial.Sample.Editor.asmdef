@@ -1,0 +1,13 @@
+{
+  "name": "Dreamy.Tutorial.Sample.Editor",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Dreamy.Tutorial.Integration.Runtime",
+    "Dreamy.Tutorial.Sample.Runtime",
+    "Unity.ugui",
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

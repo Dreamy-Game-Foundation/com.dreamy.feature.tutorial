@@ -1,0 +1,26 @@
+{
+  "name": "com.dreamy.feature.tutorial",
+  "version": "0.1.0",
+  "displayName": "Dreamy Tutorial",
+  "description": "Checkpointed tutorial flows with UI and 3D target adapters.",
+  "unity": "6000.0",
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Dreamy Studio"
+  },
+  "dependencies": {
+    "com.dreamy.core": "1.1.2",
+    "com.dreamy.dataconfig": "0.2.0",
+    "com.dreamy.datasave": "0.2.0",
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.ugui": "2.0.0",
+    "com.unity.modules.physics": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Tutorial Feature",
+      "description": "UI and 3D tutorial demo with an Editor builder for prefabs and scenes.",
+      "path": "Samples~/Tutorial Feature"
+    }
+  ]
+}
