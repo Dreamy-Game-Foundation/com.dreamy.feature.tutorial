@@ -1,52 +1,72 @@
 # Dreamy Tutorial
 
-Checkpointed, linear tutorials for UI and 3D games. Version 0.1.0.
+Package thuộc Dreamy Game Studio. Hướng dẫn dưới đây mô tả cấu trúc, cách cài vào project và tích hợp ở root/scene.
 
-## Boundaries
+## Cài package
 
-- Runtime contains validated DataConfig definitions, Datasave checkpoints, service, and presenter contracts.
-- Integration Runtime contains UGUI overlay, scoped registry, Button targets and Collider targets. It has no dependency on Shop, Settings, project code or render-pipeline shaders.
-- The host starts flows, resolves message keys, navigates scenes/panels and locks gameplay actions. The overlay only filters UI raycasts; it cannot disable keyboard, gamepad, camera controls or arbitrary gameplay scripts.
-- Editor tooling is in a separate Editor-only assembly.
+Dùng Unity 6000.0 trở lên. Sandbox đã tham chiếu package bằng `file:../LocalPackages/com.dreamy.feature.tutorial`. Project khác dùng Package Manager > + > Install package from disk và chọn package.json, hoặc Git URL của repository nội bộ. Cài cả dependency Dreamy/Git vào manifest của game; version dependency không tự cấu hình registry riêng.
 
-## Bootstrap
+Dependency trực tiếp theo package.json:
 
-Register `TutorialInstaller.RegisterConfig(dataConfig)` before DataConfig initialization. The JSON document key is `tutorialCatalog`; a Resources-based consumer should provide exactly one `Resources/DataConfig/tutorialCatalog.json`.
+- `com.dreamy.core` (1.1.2)
+- `com.dreamy.dataconfig` (0.2.0)
+- `com.dreamy.datasave` (0.2.0)
+- `com.unity.nuget.newtonsoft-json` (3.2.1)
+- `com.unity.ugui` (2.0.0)
+- `com.unity.modules.physics` (1.0.0)
 
-After initialization, call `TutorialInstaller.Install(catalog, datasave, saveKey)` or construct `TutorialModel` directly for a host-owned service. The installer registers `ITutorialService`; the registering root must unregister it at teardown. A direct model is not globally registered.
+## Cấu trúc và asmdef
 
-Create a `TutorialTargetRegistry`, `TutorialOverlay` and `TutorialController`, then call `controller.Initialize(service, overlay, registry)`. Call `service.TryStart(flowId)` when host UI is ready. The controller polls targets in LateUpdate; pure presenters require their host to call `Tick()`.
+| Assembly | Reference | Phạm vi |
+| --- | --- | --- |
+| `Dreamy.Tutorial.Editor` | Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.DataConfig.Runtime | Chỉ Editor |
+| `Dreamy.Tutorial.Integration.Runtime` | Dreamy.Tutorial.Runtime, Unity.ugui | Runtime |
+| `Dreamy.Tutorial.Runtime` | Dreamy.Core.Runtime, Dreamy.DataConfig.Runtime, Dreamy.Datasave.Runtime | Runtime |
 
-`overlay.ResolveMessage` is a host-provided `Func<string, string>`. Sample message keys are readable English text; production keys should be localized by the host.
+Trong asmdef của game, thêm assembly chứa API trực tiếp sử dụng. Code bootstrap reference thêm Core/DataConfig/Datasave/Economy theo nhu cầu; code async reference UniTask. Code gọi type sample reference assembly sample. Giữ Editor reference trong asmdef Editor-only.
 
-## Targets
+## Cấu trúc và trách nhiệm
 
-For a Button, add `TutorialUITarget` and assign ID/registry/Button, or use `Configure`. Targets register in OnEnable and unregister in OnDisable. IDs must be unique within a registry. Reconfigure/re-enable does not duplicate the click subscription.
+Runtime/Config chứa catalog; Contracts chứa service/view và adapter; Domain chứa quy tắc và state; Installation chứa installer; Persistence xử lý tiến trình lưu. Presentation (nếu có) nối service với view. Samples~ là integration được import vào Assets; game sở hữu UI, gameplay, localization và adapter SDK.
 
-For a 3D object, add `TutorialWorldTarget` on the Collider GameObject and assign an explicit camera, collider and registry. The camera needs `PhysicsRaycaster`, and the scene needs an EventSystem/input module. Click-through requires an exact collider hit using `interactionMask`; another collider in front blocks the interaction. Configure the camera's PhysicsRaycaster mask consistently with that interaction mask. Trigger colliders are supported only when both the event system physics settings and target raycasts agree.
+## Cài service ở GameInstaller
 
-3D bounds are projected into a screen-space rectangular spotlight, independent of URP/Built-in shader choices. Targets behind the camera, crossing near/far planes or outside the viewport wait without advancing. Availability describes projected visibility, not full mesh occlusion; collider raycasts enforce occlusion for click interaction. There is no outline shader or camera steering in v0.1.0.
+Dùng một DataConfig và Datasave dùng chung. Ghép đoạn dưới vào root async; không tạo lại các service trong panel.
 
-UI geometry must not be fully clipped by a ScrollRect/mask; the host should scroll it into view. The rectangular spotlight does not describe arbitrary image alpha or nonrectangular buttons.
+```csharp
+using Dreamy.Core;
+using Dreamy.DataConfig;
+using Dreamy.Tutorial;
 
-## Completion and failure
+// dataConfig: instance root đã tạo, chưa initialize.
+TutorialInstaller.RegisterConfig(dataConfig);
+await dataConfig.InitializeAsync(cancellationToken);
+ServiceLocator.Register<IDataConfigService>(dataConfig);
+// IDatasaveService và wallet (nếu cần) đã đăng ký trước đây.
+ITutorialService service = TutorialInstaller.Install();
+```
 
-- `Next`: the presenter reports the current token.
-- `TargetClick`: the real Button/EventSystem click is observed. No gameplay action is simulated.
-- `HostSignal`: capture `service.GetState().StepToken` before the action; after success call `controller.ReportSignal(signalKey, capturedToken)`. Never fetch a fresh token inside an old async callback.
-- A signal can complete a step after its previously available target disappears during navigation. A step that has never been active cannot accept such a signal while waiting.
-- Skip is policy-controlled and persists separately from completion. Suspend revokes tokens; resume creates a new token.
-- Persistence writes a detached candidate before changing in-memory progress. Save failure leaves the same step/token retryable. The overlay Retry button repeats only the failed checkpoint command, not the host gameplay action.
-- Host actions must still be idempotent or gated while a checkpoint retry is pending. Closing/disabling the controller loses its in-memory retry command; restarting resumes the saved step, and the host must reconcile an already completed action safely.
+Với nhiều feature, gọi tất cả RegisterConfig trước một InitializeAsync, rồi mới gọi Install cho từng feature. JSON cần có đúng một Resources/DataConfig/tutorialCatalog.json. Root unregister ITutorialService khi teardown; dispose presenter/subscription theo lifecycle UI.
 
-Checkpoints use stable step IDs. A removed ID requires `stepMigrations` on its flow, mapping old ID to an existing step ID. Catalog identity changes return `MigrationRequired`; the host must provide an explicit migration strategy. Keep terminal flow IDs stable across catalog revisions.
+## Sử dụng và sample
 
-## Sample
+Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho Editor builder; mở Generated/TutorialDemo.unity hoặc Dreamy > Tutorial > Build UI and 3D Demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
 
-Import **Tutorial Feature** through Package Manager. Open its `Generated/TutorialDemo.unity` scene and press Play (turn off a forced bootstrap start-scene override for this standalone scene), or use **Dreamy > Tutorial > Build UI and 3D Demo** to generate an independent scene and overlay prefab. The builder creates a new folder and preserves existing scenes. Sample Editor assembly requires `com.unity.inputsystem`; the runtime package does not depend on that input implementation.
+## Import sample
 
-The sample includes a UI HostSignal flow and a 3D Collider click flow. Reset deletes only `tutorial-demo` in the sample's separate `DreamyTutorialDemo` save directory. It does not reset game/economy saves.
+Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.1.0/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
 
-## Verification
+- **Tutorial Feature**: nguồn `Samples~/Tutorial Feature`.
+  Assembly `Dreamy.Tutorial.Sample.Editor` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Tutorial.Sample.Runtime, Unity.ugui, Unity.InputSystem. Chỉ dùng trong Editor.
+  Assembly `Dreamy.Tutorial.Sample.Runtime` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, Unity.ugui.
 
-See [validation evidence](VALIDATION.md) for results and remaining gates. Platform/device validation and package publication have not been performed.
+## Addressables cho HUD/overlay
+
+TutorialOverlay không phải UIPanel. Có thể đặt trực tiếp dưới Canvas và bind/initialize như hướng dẫn trên. Nếu cần tải theo yêu cầu:
+
+1. Đưa prefab của game vào Addressables Group, ví dụ UI Widgets.
+2. Đặt Address là UI/TutorialOverlay.prefab và khai báo constant tương ứng trong class UIAddress.
+3. Dùng AssetLoader.LoadAsync<GameObject>(address), instantiate dưới Canvas rồi Bind hoặc Initialize với service/registry cần thiết.
+4. Destroy instance khi kết thúc, chỉ unload cache khi không còn consumer. Build content trước khi thử player.
+
+Luồng này cần Dreamy Assets và UniTask ở game. Không truyền type HUD/overlay vào PanelManager.Show<T>(), vì API đó yêu cầu UIPanel subclass.

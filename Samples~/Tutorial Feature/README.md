@@ -1,11 +1,27 @@
-# Tutorial Feature sample
+# Tutorial Feature
 
-Requires the Dreamy Tutorial package, Unity UGUI and the Unity Input System package for the supplied Editor builder/EventSystem module.
+Sample của Dreamy Tutorial. Import từ Window > Package Manager > Dreamy Tutorial > Samples > Import. Unity chép nội dung vào Assets/Samples/Dreamy Tutorial/0.1.0/Tutorial Feature/.
 
-Open `Generated/TutorialDemo.unity` and press Play. In a Dreamy consumer that forces a bootstrap start scene, turn that override off in the Start Scene toolbar while running this standalone sample. Use **Start UI** for a Button/HostSignal flow and **Start 3D** for a Collider target. Only one flow can run at a time. **Reset tutorial save** clears this sample's tutorial checkpoint, leaving game saves untouched.
+## Cấu trúc và tích hợp
 
-To rebuild an independent demo, use **Dreamy > Tutorial > Build UI and 3D Demo**. Output is in a unique `Assets/DreamyTutorialDemo*` folder. The builder creates and closes its own additive scene; it does not save existing scenes. Exit Play Mode and finish unsaved untitled scenes before using it.
+Giữ nguyên folder, .meta, asmdef và reference prefab khi chuyển vào project. Chỉ giữ một bản script/asmdef và một JSON cho mỗi key Resources/DataConfig. Bootstrap config/save/wallet/audio tại GameInstaller trước khi bật UI, theo [README package](../../README.md). Link tương đối này dùng trong source package; sau import, mở README package từ Package Manager.
 
-The sample uses a screen-space overlay and collider bounds for a rectangular 3D spotlight. It intentionally leaves camera controls, gameplay input gating and localization to the host. The host action increments a demo counter; save retries do not execute that action again.
+## Sử dụng và sample
 
-Runtime integration components live in the package's `Integration/Runtime` assembly and may be used with a customized project-owned prefab.
+Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho Editor builder; mở Generated/TutorialDemo.unity hoặc Dreamy > Tutorial > Build UI and 3D Demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
+
+
+Assembly Dreamy.Tutorial.Sample.Editor reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Tutorial.Sample.Runtime, Unity.ugui, Unity.InputSystem. Assembly chỉ dành cho Editor.
+
+Assembly Dreamy.Tutorial.Sample.Runtime reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, Unity.ugui.
+
+## Addressables cho HUD/overlay
+
+TutorialOverlay không phải UIPanel. Có thể đặt trực tiếp dưới Canvas và bind/initialize như hướng dẫn trên. Nếu cần tải theo yêu cầu:
+
+1. Đưa prefab của game vào Addressables Group, ví dụ UI Widgets.
+2. Đặt Address là UI/TutorialOverlay.prefab và khai báo constant tương ứng trong class UIAddress.
+3. Dùng AssetLoader.LoadAsync<GameObject>(address), instantiate dưới Canvas rồi Bind hoặc Initialize với service/registry cần thiết.
+4. Destroy instance khi kết thúc, chỉ unload cache khi không còn consumer. Build content trước khi thử player.
+
+Luồng này cần Dreamy Assets và UniTask ở game. Không truyền type HUD/overlay vào PanelManager.Show<T>(), vì API đó yêu cầu UIPanel subclass.
