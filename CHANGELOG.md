@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Remove the sample Editor builder and its Editor assembly; retain the catalog validator.
+- Keep the ready-made sample scene/prefab and update sample usage instructions.
+
 ## 0.1.0 — 2026-10-01
 
 - Add validated linear tutorial flows, explicit completion modes, tokens and checkpoint persistence.

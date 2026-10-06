@@ -19,7 +19,7 @@
   "samples": [
     {
       "displayName": "Tutorial Feature",
-      "description": "UI and 3D tutorial demo with an Editor builder for prefabs and scenes.",
+      "description": "UI and 3D tutorial demo with ready-made prefabs and scenes.",
       "path": "Samples~/Tutorial Feature"
     }
   ]

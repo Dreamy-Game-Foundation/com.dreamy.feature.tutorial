@@ -8,10 +8,7 @@ Giữ nguyên folder, .meta, asmdef và reference prefab khi chuyển vào proje
 
 ## Sử dụng và sample
 
-Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho Editor builder; mở Generated/TutorialDemo.unity hoặc Dreamy > Tutorial > Build UI and 3D Demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
-
-
-Assembly Dreamy.Tutorial.Sample.Editor reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Tutorial.Sample.Runtime, Unity.ugui, Unity.InputSystem. Assembly chỉ dành cho Editor.
+Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho EventSystem; mở Generated/TutorialDemo.unity để chạy demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
 
 Assembly Dreamy.Tutorial.Sample.Runtime reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, Unity.ugui.
 

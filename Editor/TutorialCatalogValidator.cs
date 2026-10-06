@@ -7,7 +7,7 @@ namespace Dreamy.Tutorial.Editor
 {
     public static class TutorialCatalogValidator
     {
-        [MenuItem("Dreamy/Tutorial/Validate Selected Catalog")]
+        [MenuItem("Tools/Dreamy/Tutorial/Validate Selected Catalog")]
         public static void ValidateSelected()
         {
             string path = AssetDatabase.GetAssetPath(Selection.activeObject);

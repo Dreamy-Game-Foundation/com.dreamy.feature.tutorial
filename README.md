@@ -50,14 +50,13 @@ Với nhiều feature, gọi tất cả RegisterConfig trước một Initialize
 
 ## Sử dụng và sample
 
-Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho Editor builder; mở Generated/TutorialDemo.unity hoặc Dreamy > Tutorial > Build UI and 3D Demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
+Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller.Initialize(service, overlay, registry), sau đó service.TryStart(flowId) khi target sẵn sàng. TutorialUITarget gắn vào Button; TutorialWorldTarget cần collider/camera rõ ràng, PhysicsRaycaster và EventSystem. HostSignal phải capture StepToken trước action và report token đó sau thành công. Giữ flow/step ID, khai báo migration khi bỏ step; save retry không được thực hiện lại gameplay action. Host xử lý localization và khóa input gameplay; overlay chỉ lọc raycast UI. Sample cần Input System cho EventSystem; mở Generated/TutorialDemo.unity để chạy demo. Tắt ép bootstrap scene khi chạy demo độc lập. Overlay không phải UIPanel.
 
 ## Import sample
 
 Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.1.0/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
 
 - **Tutorial Feature**: nguồn `Samples~/Tutorial Feature`.
-  Assembly `Dreamy.Tutorial.Sample.Editor` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Tutorial.Sample.Runtime, Unity.ugui, Unity.InputSystem. Chỉ dùng trong Editor.
   Assembly `Dreamy.Tutorial.Sample.Runtime` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, Unity.ugui.
 
 ## Addressables cho HUD/overlay
