@@ -1,7 +1,8 @@
 using System;
+using Dreamy.UI;
 namespace Dreamy.Tutorial
 {
-    public sealed class TutorialPresenter : IDisposable
+    public sealed class TutorialPresenter : ITickedPanelPresenter
     {
         private readonly ITutorialService service;
         private readonly ITutorialView view;

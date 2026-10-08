@@ -3,7 +3,9 @@
   "rootNamespace": "Dreamy.Tutorial.Integration",
   "references": [
     "Dreamy.Tutorial.Runtime",
-    "Unity.ugui"
+    "UnityEngine.UI",
+    "Dreamy.UI.Runtime",
+    "Dreamy.UI.Presentation"
   ],
   "autoReferenced": true
 }

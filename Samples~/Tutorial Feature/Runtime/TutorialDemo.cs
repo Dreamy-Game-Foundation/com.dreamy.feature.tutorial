@@ -1,4 +1,6 @@
 using System;
+using Dreamy.UI;
+using Dreamy.Feature.Tutorial.Integration;
 using Dreamy.Datasave;
 using Dreamy.Tutorial.Integration;
 using Newtonsoft.Json;
@@ -30,8 +32,10 @@ namespace Dreamy.Tutorial.Sample
         private void Install()
         {
             if (service != null) service.StateChanged -= Refresh;
-            service = new TutorialModel(JsonConvert.DeserializeObject<TutorialCatalogConfig>(catalog.text), datasave, "tutorial-demo");
-            controller.Initialize(service, overlay, registry); service.StateChanged += Refresh; Refresh();
+            var factory = new PanelPresenterFactory();
+            service = TutorialFeatureInstaller.Install(factory, JsonConvert.DeserializeObject<TutorialCatalogConfig>(catalog.text),
+                datasave, _ => registry, "tutorial-demo");
+            controller.Initialize(factory, service, overlay, registry); service.StateChanged += Refresh; Refresh();
         }
         private void StartUI() => StartFlow("ui-demo");
         private void Start3D() => StartFlow("world-demo");

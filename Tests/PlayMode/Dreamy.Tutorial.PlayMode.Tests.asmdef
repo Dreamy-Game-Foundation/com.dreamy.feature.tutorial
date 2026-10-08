@@ -3,7 +3,8 @@
   "references": [
     "Dreamy.Tutorial.Runtime",
     "Dreamy.Tutorial.Integration.Runtime",
-    "Unity.ugui"
+    "UnityEngine.UI",
+    "Dreamy.UI.Presentation"
   ],
   "overrideReferences": true,
   "precompiledReferences": [

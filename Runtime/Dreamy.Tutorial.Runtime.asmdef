@@ -4,11 +4,13 @@
   "references": [
     "Dreamy.Core.Runtime",
     "Dreamy.DataConfig.Runtime",
-    "Dreamy.Datasave.Runtime"
+    "Dreamy.Datasave.Runtime",
+    "Dreamy.UI.Presentation"
   ],
   "overrideReferences": true,
   "precompiledReferences": [
     "Newtonsoft.Json.dll"
   ],
-  "autoReferenced": true
+  "autoReferenced": true,
+  "noEngineReferences": true
 }

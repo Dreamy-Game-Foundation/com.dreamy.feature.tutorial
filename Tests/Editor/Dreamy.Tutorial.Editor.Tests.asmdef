@@ -5,7 +5,8 @@
     "Dreamy.Tutorial.Integration.Runtime",
     "Dreamy.DataConfig.Runtime",
     "Dreamy.Datasave.Runtime",
-    "Unity.ugui"
+    "UnityEngine.UI",
+    "Dreamy.UI.Presentation"
   ],
   "includePlatforms": [
     "Editor"

@@ -4,7 +4,10 @@
     "Dreamy.Tutorial.Runtime",
     "Dreamy.Tutorial.Integration.Runtime",
     "Dreamy.Datasave.Runtime",
-    "Unity.ugui"
+    "UnityEngine.UI",
+    "Dreamy.UI.Runtime",
+    "Dreamy.UI.Presentation",
+    "Dreamy.DataConfig.Runtime"
   ],
   "overrideReferences": true,
   "precompiledReferences": [
