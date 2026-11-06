@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2026-11-06
+
+- Include the sample in-memory tutorial save service so the demo can run without a game save adapter. Real game persistence remains host-owned.
+- Synchronize package metadata and README; no asset GUID or game-save migration. Prepared locally; no release tag or publication is implied.
+
 ## Unreleased
 
 - Remove the sample Editor builder and its Editor assembly; retain the catalog validator.

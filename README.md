@@ -1,5 +1,11 @@
 # Dreamy Tutorial
 
+## Phiên bản 0.1.1
+
+Include the sample in-memory tutorial save service so the demo can run without a game save adapter. Real game persistence remains host-owned.
+
+Bản chuẩn bị phát hành nội bộ ngày 2026-11-06; chưa tạo/push tag. Giữ nguyên các sample đã import và meta GUID; import mới dùng version 0.1.1. Xem [CHANGELOG](CHANGELOG.md).
+
 Package thuộc Dreamy Game Studio. Hướng dẫn dưới đây mô tả cấu trúc, cách cài vào project và tích hợp ở root/scene.
 
 ## Cài package
@@ -54,7 +60,7 @@ Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller
 
 ## Import sample
 
-Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.1.0/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
+Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.1.1/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
 
 - **Tutorial Feature**: nguồn `Samples~/Tutorial Feature`.
   Assembly `Dreamy.Tutorial.Sample.Runtime` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, UnityEngine.UI.

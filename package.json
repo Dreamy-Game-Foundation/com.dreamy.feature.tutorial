@@ -1,6 +1,6 @@
 {
   "name": "com.dreamy.feature.tutorial",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Dreamy Tutorial",
   "description": "Checkpointed tutorial flows with UI and 3D target adapters.",
   "unity": "6000.0",
