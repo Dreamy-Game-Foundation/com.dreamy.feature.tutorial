@@ -87,7 +87,7 @@ namespace Dreamy.Tutorial
             if (busy) return TutorialResult.Busy;
             if (stepToken == Guid.Empty || stepToken != token) return TutorialResult.InvalidToken;
             if (step == null || status == TutorialStatus.Suspended) return TutorialResult.NotActive;
-            var nextStatus = string.IsNullOrWhiteSpace(step.TargetId) || available ? TutorialStatus.ActiveStep : TutorialStatus.WaitingForTarget;
+            var nextStatus = !step.RequiresTargets || available ? TutorialStatus.ActiveStep : TutorialStatus.WaitingForTarget;
             if (nextStatus == TutorialStatus.ActiveStep) wasActive = true;
             if (status != nextStatus) { status = nextStatus; Publish(); }
             return TutorialResult.Updated;
@@ -121,7 +121,7 @@ namespace Dreamy.Tutorial
         private void Activate(TutorialStepDefinition definition)
         {
             step = definition; token = Guid.NewGuid(); error = null;
-            wasActive = string.IsNullOrWhiteSpace(step.TargetId);
+            wasActive = !step.RequiresTargets;
             status = wasActive ? TutorialStatus.ActiveStep : TutorialStatus.WaitingForTarget;
         }
 

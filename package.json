@@ -1,21 +1,22 @@
 {
   "name": "com.dreamy.feature.tutorial",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "displayName": "Dreamy Tutorial",
-  "description": "Checkpointed tutorial flows with UI and 3D target adapters.",
+  "description": "Checkpointed tutorial flows with custom views, multi-focus UI and 2D/3D target adapters.",
   "unity": "6000.0",
   "license": "UNLICENSED",
   "author": {
     "name": "Dreamy Game Studio"
   },
   "dependencies": {
-    "com.dreamy.core": "1.1.2",
-    "com.dreamy.dataconfig": "0.2.0",
-    "com.dreamy.datasave": "0.2.0",
+    "com.dreamy.core": "1.2.0",
+    "com.dreamy.dataconfig": "1.0.1",
+    "com.dreamy.datasave": "1.0.1",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.ugui": "2.0.0",
     "com.unity.modules.physics": "1.0.0",
-    "com.dreamy.ui": "0.2.0"
+    "com.dreamy.ui": "1.1.0",
+    "com.unity.modules.physics2d": "1.0.0"
   },
   "samples": [
     {

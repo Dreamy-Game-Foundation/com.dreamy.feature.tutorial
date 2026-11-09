@@ -1,0 +1,24 @@
+{
+  "name": "Dreamy.Tutorial.Sample.Tests",
+  "references": [
+    "Dreamy.Tutorial.Runtime",
+    "Dreamy.Tutorial.Integration.Runtime",
+    "Dreamy.Tutorial.Sample.Runtime",
+    "Dreamy.DataConfig.Runtime",
+    "Dreamy.Datasave.Runtime",
+    "UnityEngine.UI",
+    "Dreamy.UI.Presentation"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll",
+    "Newtonsoft.Json.dll"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "autoReferenced": false
+}

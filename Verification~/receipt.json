@@ -1,0 +1,41 @@
+{
+  "sourceFingerprint": "adc24e0b6ac7c858d7cd74201620e9dcdc742ded3700ca458ceb4c98111979da",
+  "unityVersion": "6000.4.12f1",
+  "packageVersion": "0.2.0",
+  "dependencies": {
+    "com.dreamy.core": {
+      "version": "1.2.0",
+      "commit": "ba844659fbc65655f21b082f89115295167f2405"
+    },
+    "com.dreamy.dataconfig": {
+      "version": "1.0.1",
+      "commit": "df0a952f2ce95e3742b13d3607af2eb8dcb7df3c"
+    },
+    "com.dreamy.datasave": {
+      "version": "1.0.1",
+      "commit": "8e8fcc82ff953c92986167c794e7c076b0d48236"
+    },
+    "com.dreamy.ui": {
+      "version": "1.1.0",
+      "commit": "b2db2683bc9784b82954c484906e140d79297014"
+    },
+    "com.dreamy.assets": {
+      "version": "1.0.1",
+      "commit": "8785340d88041f6c06e5986818f22d9d7eb1f547"
+    }
+  },
+  "baseline": {
+    "jobId": "399db003f2ac4658af02e5b340f3793e",
+    "mode": "EditMode",
+    "passed": 27,
+    "total": 27
+  },
+  "limitations": [
+    "No device/player build or visual comparison of a real game card/scene.",
+    "Unity minimum declared 6000.0; tested only 6000.4.12f1.",
+    "Referenced dreamy-workflow and compatibility registry absent in this workspace.",
+    "Aggregate Settings harness blocked by pre-existing SettingsPlatformGateway imported-sample mismatch.",
+    "Consumer first minimal manifest omitted Audio module needed by DOTween; final consumer includes standard host built-in modules.",
+    "Expected duplicate-target error logs are asserted by tests."
+  ]
+}

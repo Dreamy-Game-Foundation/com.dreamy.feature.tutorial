@@ -4,11 +4,14 @@
     "Dreamy.Tutorial.Runtime",
     "Dreamy.Tutorial.Integration.Runtime",
     "UnityEngine.UI",
-    "Dreamy.UI.Presentation"
+    "Dreamy.UI.Presentation",
+    "Dreamy.DataConfig.Runtime",
+    "Dreamy.Datasave.Runtime"
   ],
   "overrideReferences": true,
   "precompiledReferences": [
-    "nunit.framework.dll"
+    "nunit.framework.dll",
+    "Newtonsoft.Json.dll"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

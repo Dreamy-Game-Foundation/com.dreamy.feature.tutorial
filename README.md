@@ -1,10 +1,8 @@
 # Dreamy Tutorial
 
-## Phiên bản 0.1.1
+## Phiên bản 0.2.0
 
-Include the sample in-memory tutorial save service so the demo can run without a game save adapter. Real game persistence remains host-owned.
-
-Bản chuẩn bị phát hành nội bộ ngày 2026-11-06; chưa tạo/push tag. Giữ nguyên các sample đã import và meta GUID; import mới dùng version 0.1.1. Xem [CHANGELOG](CHANGELOG.md).
+Bổ sung custom view qua contract, target world 2D, nhiều focus target và input target độc lập, waiting recovery có timeout và gesture sample. Giữ overload cũ, GUID prefab/scene và save schema. Xem [CHANGELOG](CHANGELOG.md) và [hướng dẫn tích hợp](Documentation~/integration-0.2.md).
 
 Package thuộc Dreamy Game Studio. Hướng dẫn dưới đây mô tả cấu trúc, cách cài vào project và tích hợp ở root/scene.
 
@@ -14,20 +12,22 @@ Dùng Unity 6000.0 trở lên. Sandbox đã tham chiếu package bằng `file:..
 
 Dependency trực tiếp theo package.json:
 
-- `com.dreamy.core` (1.1.2)
-- `com.dreamy.dataconfig` (0.2.0)
-- `com.dreamy.datasave` (0.2.0)
+- `com.dreamy.core` (1.2.0)
+- `com.dreamy.dataconfig` (1.0.1)
+- `com.dreamy.datasave` (1.0.1)
 - `com.unity.nuget.newtonsoft-json` (3.2.1)
 - `com.unity.ugui` (2.0.0)
 - `com.unity.modules.physics` (1.0.0)
+- `com.unity.modules.physics2d` (1.0.0)
+- `com.dreamy.ui` (1.1.0)
 
 ## Cấu trúc và asmdef
 
 | Assembly | Reference | Phạm vi |
 | --- | --- | --- |
 | `Dreamy.Tutorial.Editor` | Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.DataConfig.Runtime | Chỉ Editor |
-| `Dreamy.Tutorial.Integration.Runtime` | Dreamy.Tutorial.Runtime, UnityEngine.UI | Runtime |
-| `Dreamy.Tutorial.Runtime` | Dreamy.Core.Runtime, Dreamy.DataConfig.Runtime, Dreamy.Datasave.Runtime | Runtime |
+| `Dreamy.Tutorial.Integration.Runtime` | Dreamy.Tutorial.Runtime, UnityEngine.UI, Dreamy.UI.Runtime, Dreamy.UI.Presentation | Runtime |
+| `Dreamy.Tutorial.Runtime` | Dreamy.Core.Runtime, Dreamy.DataConfig.Runtime, Dreamy.Datasave.Runtime, Dreamy.UI.Presentation | Runtime |
 
 Trong asmdef của game, thêm assembly chứa API trực tiếp sử dụng. Code bootstrap reference thêm Core/DataConfig/Datasave/Economy theo nhu cầu; code async reference UniTask. Code gọi type sample reference assembly sample. Giữ Editor reference trong asmdef Editor-only.
 
@@ -60,7 +60,7 @@ Tạo TutorialTargetRegistry, TutorialOverlay và TutorialController; controller
 
 ## Import sample
 
-Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.1.1/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
+Mở Window > Package Manager, chọn Dreamy Tutorial > Samples > Import. Unity chép vào Assets/Samples/Dreamy Tutorial/0.2.0/. Chuyển cả folder nếu tùy biến, giữ .meta và reference prefab; không giữ bản script/asmdef hoặc Resources document trùng.
 
 - **Tutorial Feature**: nguồn `Samples~/Tutorial Feature`.
   Assembly `Dreamy.Tutorial.Sample.Runtime` reference Dreamy.Tutorial.Runtime, Dreamy.Tutorial.Integration.Runtime, Dreamy.Datasave.Runtime, UnityEngine.UI.
@@ -93,4 +93,4 @@ TutorialOverlay remains a passive non-panel view. TutorialPresenter implements I
 
 In the sandbox, GameInstaller installs the service with the existing foundation-tutorials save key; FoundationTutorialAdapter adds the target registry to the created overlay and binds through the shared factory.
 
-Sandbox validation: `python3 LocalPackages/com.dreamy.feature.settings/Tests~/validate-settings.py --shop --features`. This compiles runtime/integration/sample assemblies against their declared references and runs pure managed model/presenter regressions. Unity scene/coroutine/raycast lifecycle still requires Editor/PlayMode validation.
+Kiểm chứng trực tiếp bằng Unity Test Runner: EditMode assembly `Dreamy.Tutorial.Editor.Tests`; PlayMode assemblies `Dreamy.Tutorial.PlayMode.Tests` và `Dreamy.Tutorial.Sample.Tests` (cần import sample). Bộ kiểm tra tổng Settings có thể bị chặn bởi sample khác; không dùng kết quả đó thay cho test Tutorial. Receipt của đợt nâng cấp được lưu trong `docs/evidence/tutorial-integration` tại sandbox; xem `Verification~/README.md` trong package để biết phạm vi và fingerprint.

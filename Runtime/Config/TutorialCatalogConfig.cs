@@ -31,8 +31,15 @@ namespace Dreamy.Tutorial
                         string.IsNullOrWhiteSpace(step.MessageKey) || !Enum.IsDefined(typeof(TutorialCompletionMode), step.CompletionMode))
                         Fail("Step IDs, message keys and completion modes must be valid.");
                     bool hasTarget = !string.IsNullOrWhiteSpace(step.TargetId);
-                    if ((step.CompletionMode == TutorialCompletionMode.TargetClick || step.BlockOutsideTarget) && !hasTarget)
-                        Fail("Target click and target blocking require a targetId.");
+                    if (step.CompletionMode == TutorialCompletionMode.TargetClick && !hasTarget)
+                        Fail("Target click requires a targetId.");
+                    foreach (var ids in new[] { step.FocusTargetIds, step.InputTargetIds })
+                        if (ids.Any(string.IsNullOrWhiteSpace) || ids.Distinct(StringComparer.Ordinal).Count() != ids.Count)
+                            Fail("Focus/input target IDs must be nonempty and unique within each list.");
+                    if (step.BlockOutsideTarget && step.InputTargetIds.Count == 0)
+                        Fail("Target blocking requires at least one input target.");
+                    if (step.BlockOutsideTarget && step.CompletionMode == TutorialCompletionMode.TargetClick && !step.InputTargetIds.Contains(step.TargetId))
+                        Fail("Blocked TargetClick steps must allow input to targetId.");
                     if (step.CompletionMode == TutorialCompletionMode.HostSignal && string.IsNullOrWhiteSpace(step.SignalKey))
                         Fail("HostSignal requires a signalKey.");
                 }

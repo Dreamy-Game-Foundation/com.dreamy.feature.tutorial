@@ -1,6 +1,6 @@
 # Tutorial Feature
 
-Sample của Dreamy Tutorial. Import từ Window > Package Manager > Dreamy Tutorial > Samples > Import. Unity chép nội dung vào Assets/Samples/Dreamy Tutorial/0.1.0/Tutorial Feature/.
+Sample của Dreamy Tutorial. Import từ Window > Package Manager > Dreamy Tutorial > Samples > Import. Unity chép nội dung vào Assets/Samples/Dreamy Tutorial/0.2.0/Tutorial Feature/.
 
 ## Cấu trúc và tích hợp
 
@@ -41,3 +41,9 @@ TutorialOverlay remains a passive non-panel view. TutorialPresenter implements I
 In the sandbox, GameInstaller installs the service with the existing foundation-tutorials save key; FoundationTutorialAdapter adds the target registry to the created overlay and binds through the shared factory.
 
 Sandbox validation: `python3 LocalPackages/com.dreamy.feature.settings/Tests~/validate-settings.py --shop --features`. This compiles runtime/integration/sample assemblies against their declared references and runs pure managed model/presenter regressions. Unity scene/coroutine/raycast lifecycle still requires Editor/PlayMode validation.
+
+## Bổ sung 0.2
+
+`Runtime/TutorialGestureExample.cs` minh họa drag/hold/release trên Image không Button với `TutorialRectTarget`; configure ngưỡng hold/drag và chính sách thả ngoài vùng. Dùng HostSignal, capture token trước gesture, bỏ qua pointer thứ hai và hủy khi suspend/pause/disable. Game thật xác nhận gameplay trước khi report.
+
+`Tests/TutorialGestureExampleTests.cs` chạy trong PlayMode sau import sample. Custom view, world 2D, multi-focus và recovery được mô tả ở `Documentation~/integration-0.2.md` trong package. Scene demo cũ giữ nguyên để kiểm tra tương thích UI/3D.

@@ -27,5 +27,16 @@ namespace Dreamy.Feature.Tutorial.Integration
                 resolver(view) ?? throw new InvalidOperationException("Tutorial view requires a target resolver.")));
             return service;
         }
+        public static ITutorialService Install<TView>(PanelPresenterFactory factory, ITutorialService service,
+            Func<TView, ITutorialTargetResolver> resolver, TutorialWaitingOptions waiting = null)
+            where TView : class, ITutorialView
+        {
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            if (service == null) throw new ArgumentNullException(nameof(service));
+            if (resolver == null) throw new ArgumentNullException(nameof(resolver));
+            factory.Register<TView>(view => new TutorialPresenter(service, view,
+                resolver(view) ?? throw new InvalidOperationException("Tutorial view requires a target resolver."), waiting));
+            return service;
+        }
     }
 }
